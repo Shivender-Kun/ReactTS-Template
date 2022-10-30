@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { EnvironmentPlugin, ProvidePlugin } = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 const APP_DIR = path.resolve(__dirname, "../src");
@@ -44,6 +45,12 @@ module.exports = {
       template: `${APP_DIR}/public/index.html`,
       hash: true,
       cache: true,
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: `${APP_DIR}/public/robots.txt`, to: BUILD_DIR },
+        { from: `${APP_DIR}/public/manifest.json`, to: BUILD_DIR },
+      ],
     }),
     // new EnvironmentPlugin(env),
     // new ProvidePlugin({ process: "process/browser" }),
