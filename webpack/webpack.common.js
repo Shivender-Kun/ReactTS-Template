@@ -1,13 +1,23 @@
-const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { EnvironmentPlugin, ProvidePlugin } = require("webpack");
+const path = require("path");
+
+const APP_DIR = path.resolve(__dirname, "../src");
+const BUILD_DIR = path.resolve(__dirname, "../build");
 
 module.exports = {
-  entry: path.resolve(__dirname, "..", "./src/main.tsx"),
+  entry: `${APP_DIR}/main.tsx`,
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
+  output: {
+    clean: true,
+    path: BUILD_DIR,
+  },
+
   module: {
     rules: [
+      // ts, tsx, js, jsx rules
       {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
@@ -17,10 +27,7 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
+
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: "asset/resource",
@@ -31,14 +38,15 @@ module.exports = {
       },
     ],
   },
-  output: {
-    path: path.resolve(__dirname, "..", "./build"),
-    filename: "bundle.js",
-  },
+
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "..", "./src/public/index.html"),
+      template: `${APP_DIR}/public/index.html`,
+      hash: true,
+      cache: true,
     }),
+    // new EnvironmentPlugin(env),
+    // new ProvidePlugin({ process: "process/browser" }),
   ],
-  stats: "errors-only",
+  // stats: "errors-only",
 };

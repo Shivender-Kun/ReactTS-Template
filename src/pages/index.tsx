@@ -1,7 +1,5 @@
-import React from "react";
-
 function Pages() {
-  return <div>Pages</div>;
+  return <div>Pagess</div>;
 }
 
 export default Pages;
